@@ -1,13 +1,19 @@
 const btnAdicionarTarefa = document.querySelector('.app__button--add-task');
 const formAdicionarTarefa = document.querySelector(".app__form-add-task");
 const textArea = document.querySelector(".app__form-textarea");
-const listaTarefa = document.querySelector(".app__section-task-list")
+const listaTarefa = document.querySelector(".app__section-task-list");
+const botaoCancelar = document.querySelector(".app__form-footer__button--cancel");
 
 // se não houver nada na localStorage, retorna um array vazio. 
 const tarefas = JSON.parse(localStorage.getItem('tarefas')) || [];
 
 function atualizarTarefas() {
     localStorage.setItem('tarefas', JSON.stringify(tarefas));
+}
+
+function cancelarTarefa() {
+    textArea.value = '';
+    formAdicionarTarefa.classList.add("hidden");
 }
 
 function adicionarElementoTarefa(tarefa) {
@@ -48,6 +54,10 @@ function adicionarElementoTarefa(tarefa) {
 
     return li;
 }
+
+botaoCancelar.addEventListener("click", () => {
+    cancelarTarefa();
+})
 
 btnAdicionarTarefa.addEventListener("click", () => {
     formAdicionarTarefa.classList.toggle('hidden');
