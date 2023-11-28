@@ -6,6 +6,10 @@ const listaTarefa = document.querySelector(".app__section-task-list")
 // se não houver nada na localStorage, retorna um array vazio. 
 const tarefas = JSON.parse(localStorage.getItem('tarefas')) || [];
 
+function atualizarTarefas() {
+    localStorage.setItem('tarefas', JSON.stringify(tarefas));
+}
+
 function adicionarElementoTarefa(tarefa) {
     const li = document.createElement('li');
     li.classList.add('app__section-task-list-item');
@@ -26,9 +30,14 @@ function adicionarElementoTarefa(tarefa) {
     botao.classList.add("app_button-edit")
 
     botao.onclick = () => {
-        prompt("Qual é o novo nome da tarefa?");
+        const novaDescricao = prompt("Qual é o novo nome da tarefa?");
+        if (novaDescricao) {
+            paragrafo.textContent = novaDescricao;
+            tarefa.descricao = novaDescricao;
+            atualizarTarefas();
+        }
     }
-    
+
     const imagemBotao = document.createElement('img');
     imagemBotao.setAttribute('src', './imagens/edit.png');
     botao.append(imagemBotao);
@@ -52,8 +61,7 @@ formAdicionarTarefa.addEventListener("submit", (e) => {
     tarefas.push(tarefa);
     const elementoTarefa = adicionarElementoTarefa(tarefa);
     listaTarefa.append(elementoTarefa);
-    localStorage.setItem('tarefas', JSON.stringify(tarefas));
-
+    atualizarTarefas();
     textArea.value = '';
     formAdicionarTarefa.classList.add('hidden');
 })
